@@ -321,7 +321,7 @@ globalkeys = awful.util.table.join(
 )
 
 clientkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "f",
+    awful.key({ modkey,           }, "=",
         function (c)
             c.fullscreen = not c.fullscreen
             c:raise()
