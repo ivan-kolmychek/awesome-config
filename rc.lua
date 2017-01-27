@@ -402,6 +402,55 @@ for i = 1, 9 do
     )
 end
 
+local extra_tags = { a = 10, b = 11, c = 12, d = 13, e = 14, f = 15 };
+
+for key, num in pairs(extra_tags) do
+    globalkeys = awful.util.table.join(globalkeys,
+        -- View tag only.
+        awful.key({ modkey }, key,
+                  function ()
+                        local screen = awful.screen.focused()
+                        local tag = screen.tags[num]
+                        if tag then
+                           tag:view_only()
+                        end
+                  end,
+                  {description = "view tag "..key, group = "tag"}),
+        -- Toggle tag display.
+        awful.key({ modkey, "Control" }, key,
+                  function ()
+                      local screen = awful.screen.focused()
+                      local tag = screen.tags[num]
+                      if tag then
+                         awful.tag.viewtoggle(tag)
+                      end
+                  end,
+                  {description = "toggle tag " .. key, group = "tag"}),
+        -- Move client to tag.
+        awful.key({ modkey, "Shift" }, key,
+                  function ()
+                      if client.focus then
+                          local tag = client.focus.screen.tags[num]
+                          if tag then
+                              client.focus:move_to_tag(tag)
+                          end
+                     end
+                  end,
+                  {description = "move focused client to tag "..key, group = "tag"}),
+        -- Toggle tag on focused client.
+        awful.key({ modkey, "Control", "Shift" }, key,
+                  function ()
+                      if client.focus then
+                          local tag = client.focus.screen.tags[num]
+                          if tag then
+                              client.focus:toggle_tag(tag)
+                          end
+                      end
+                  end,
+                  {description = "toggle focused client on tag " .. key, group = "tag"})
+    )
+end
+
 clientbuttons = awful.util.table.join(
     awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
