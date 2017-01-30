@@ -479,6 +479,36 @@ awful.rules.rules = {
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
+    -- Application rules
+    -- ==== Tags ====
+    -- NOTE In the xprop output, the class is the second value of the
+    -- WM_CLASS property.
+    { rule = { class = "konsole" },
+      properties = { screen = 1, tag = "1", opacity = 0.9 } },
+    { rule = { class = "Firefox" },
+      properties = { screen = 1, tag = "2" } },
+    { rule = { class = "Dolphin" },
+      properties = { screen = 1, tag = "3" } },
+    { rule = { class = "Chromium" },
+      properties = { screen = 1, tag = "5", floating = false } },
+    { rule = { class = "Smplayer" },
+      properties = { screen = 1, tag = "6" } },
+    { rule = { class = "mpv" },
+      properties = { screen = 1, tag = "6", ontop = true, floating = true }},
+    { rule = { class = "ksshaskpass" },
+      properties = { screen = 1, tag = "4", urgent = true } },
+    { rule = { class = "VirtualBox" },
+      properties = { screen = 1, tag = "7" } },
+    { rule = { class = "Keepassx" },
+      properties = { screen = 1, tag = "8" } },
+    { rule = { class = "wpa_Gui" },
+      properties = { screen = 1, tag = "c" } },
+    { rule = { class = "Thunderbird" },
+      properties = { screen = 1, tag = "d", floating = false, } },
+    { rule = { class = "Skype" },
+      properties = { screen = 1, tag = "e" } },
+    { rule = { class = "Plasma" },
+      properties = { floating = true } },
 }
 -- }}}
 
