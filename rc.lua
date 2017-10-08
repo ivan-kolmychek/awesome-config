@@ -172,6 +172,19 @@ awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
 
+    local wallpaper_change_time = 30
+    local wallpaper_change_timer = gears.timer {
+      timeout = wallpaper_change_time
+    }
+    wallpaper_change_timer:connect_signal("timeout", function()
+      set_wallpaper(s)
+      wallpaper_change_timer:stop()
+      wallpaper_change_timer.timeout = wallpaper_change_time
+      wallpaper_change_timer:start()
+    end)
+
+    wallpaper_change_timer:start()
+
     -- Each screen has its own tag table.
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f" }, s, awful.layout.layouts[1])
 
