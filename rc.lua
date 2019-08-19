@@ -45,7 +45,7 @@ end
 beautiful.init(awful.util.get_configuration_dir() .. "themes/current/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "konsole"
+terminal = "alacritty"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -337,9 +337,9 @@ globalkeys = awful.util.table.join(
               {description = "show the menubar", group = "launcher"}),
 
     -- Custom commands
-    awful.key({ modkey }, "#67", function() awful.spawn.with_shell(scripts_path .. "/approve.sh | xsel -bi") end,
+    awful.key({ modkey }, "#67", function() awful.spawn.with_shell("approve-markdown | xsel -bi") end,
               {description = "put random PR approval markdown into clipboard", group = "launcher"}),
-    awful.key({ modkey }, "#68", function() awful.spawn.with_shell(scripts_path .. "/note-signature.sh | xsel -bi") end,
+    awful.key({ modkey }, "#68", function() awful.spawn.with_shell("note-signature | xsel -bi") end,
               {description = "put note signature into clipboard", group = "launcher"})
 )
 
