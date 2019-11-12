@@ -343,18 +343,27 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "#68", function() awful.spawn.with_shell("note-signature | xsel -bi") end,
               {description = "put note signature into clipboard", group = "launcher"}),
 
+    -- Decrease brightness
+    awful.key({ }, "#232", function()
+      awful.spawn.with_shell("xbacklight -dec 5")
+    end, {description = "decrease brightness", group = "brightness"}),
+    -- Increase brightness
+    awful.key({ }, "#233", function()
+      awful.spawn.with_shell("xbacklight -inc 5")
+    end, {description = "increase brightness", group = "brightness"}),
+
     -- Mute volume
     awful.key({ }, "#121", function()
       awful.spawn.with_shell("pamixer --toggle-mute")
-    end, {description = "mute volume", group = "launcher"}),
+    end, {description = "mute volume", group = "volume"}),
     -- Decrease volume
     awful.key({ }, "#122", function()
       awful.spawn.with_shell("pamixer --decrease 5")
-    end, {description = "increase volume", group = "launcher"}),
+    end, {description = "decrease volume", group = "volume"}),
     -- Increase volume
     awful.key({ }, "#123", function()
       awful.spawn.with_shell("pamixer --increase 5")
-    end, {description = "increase volume", group = "launcher"})
+    end, {description = "increase volume", group = "volume"})
 )
 
 clientkeys = awful.util.table.join(
