@@ -339,9 +339,25 @@ globalkeys = awful.util.table.join(
 
     -- Custom commands
     awful.key({ modkey }, "#67", function() awful.spawn.with_shell("approve-markdown | xsel -bi") end,
-              {description = "put random PR approval markdown into clipboard", group = "launcher"}),
+              {description = "put random PR approval markdown into clipboard", group = "F-keys"}),
     awful.key({ modkey }, "#68", function() awful.spawn.with_shell("note-signature | xsel -bi") end,
-              {description = "put note signature into clipboard", group = "launcher"}),
+              {description = "put note signature into clipboard", group = "F-keys"}),
+    awful.key({ modkey }, "#69", function() awful.spawn.with_shell("uuidgen -r | xargs echo -n | xsel -bi") end,
+              {description = "generate UUIDv4 into clipboard", group = "F-keys"}),
+
+    -- Keyboard layouts
+    awful.key({ "Control", "Shift" }, "1", function()
+      awful.spawn.with_shell("setxkbmap -layout us")
+    end, {description = "switch to US keyboard layout", group = "keyboard layout"}),
+    awful.key({ "Control", "Shift" }, "2", function()
+      awful.spawn.with_shell("setxkbmap -layout ua")
+    end, {description = "switch to UA keyboard layout", group = "keyboard layout"}),
+    awful.key({ "Control", "Shift" }, "3", function()
+      awful.spawn.with_shell("setxkbmap -layout ru")
+    end, {description = "switch to RU keyboard layout", group = "keyboard layout"}),
+    awful.key({ "Control", "Shift" }, "4", function()
+      awful.spawn.with_shell("setxkbmap -layout se")
+    end, {description = "switch to SE keyboard layout", group = "keyboard layout"}),
 
     -- Decrease brightness
     awful.key({ }, "#232", function()
