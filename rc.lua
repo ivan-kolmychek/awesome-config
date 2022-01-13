@@ -62,16 +62,16 @@ end
 beautiful.init(awful.util.get_configuration_dir() .. "themes/current/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "alacritty"
-editor = os.getenv("EDITOR") or "vim"
-editor_cmd = terminal .. " -e " .. editor
+local terminal = "alacritty"
+local editor = os.getenv("EDITOR") or "vim"
+local editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
+local modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -111,7 +111,7 @@ end
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
-myawesomemenu = {
+local myawesomemenu = {
    { "hotkeys", function() return false, hotkeys_popup.show_help end},
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
@@ -119,12 +119,12 @@ myawesomemenu = {
    { "quit", function() awesome.quit() end}
 }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+local mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "open terminal", terminal }
                                   }
                         })
 
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
+local mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
 
 -- Menubar configuration
@@ -275,8 +275,10 @@ root.buttons(awful.util.table.join(
 ))
 -- }}}
 
+local altkey = "Mod1"
+
 -- {{{ Key bindings
-globalkeys = awful.util.table.join(
+local globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
@@ -298,8 +300,8 @@ globalkeys = awful.util.table.join(
         end,
         {description = "focus previous by index", group = "client"}
     ),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
-              {description = "show main menu", group = "awesome"}),
+    -- awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
+    --           {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
@@ -326,8 +328,8 @@ globalkeys = awful.util.table.join(
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
---    awful.key({ modkey, "Shift"   }, "q", awesome.quit,
---              {description = "quit awesome", group = "awesome"}),
+    --  awful.key({ modkey, "Shift"   }, "q", awesome.quit,
+    --            {description = "quit awesome", group = "awesome"}),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
@@ -375,15 +377,44 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
 
+    --
     -- Custom commands
-    awful.key({ modkey }, "#67", function() awful.spawn.with_shell("approve-markdown | xsel -bi") end,
-              {description = "put random PR approval markdown into clipboard", group = "F-keys"}),
-    awful.key({ modkey }, "#68", function() awful.spawn.with_shell("note-signature | xsel -bi") end,
-              {description = "put note signature into clipboard", group = "F-keys"}),
-    awful.key({ modkey }, "#69", function() awful.spawn.with_shell("uuidgen -r | xargs echo -n | xsel -bi") end,
-              {description = "generate UUIDv4 into clipboard", group = "F-keys"}),
+    --
 
-    -- Keyboard layouts
+    -- Mod + l
+    awful.key({ modkey, }, "l", function()
+      awful.spawn("loginctl lock-session")
+    end, {description = "request screen lock", group = "launcher"}),
+
+    -- Mod + F1
+    awful.key({ modkey }, "#67", function()
+      awful.spawn.with_shell("approve-markdown | xsel -bi")
+    end, {description = "put random PR approval markdown into clipboard", group = "launcher"}),
+
+    -- Mod + F2
+    awful.key({ modkey }, "#68", function()
+      awful.spawn.with_shell("note-signature | xsel -bi")
+    end, {description = "put note signature into clipboard", group = "launcher"}),
+
+    -- Mod + F12
+    awful.key({ modkey }, "#96", function()
+      awful.spawn.with_shell("pwgen -As 40 1 | xsel -bi")
+    end, {description = "generate random string of 40 characters", group = "launcher"}),
+
+    -- PrintScreen
+    awful.key({ }, "Print", function()
+      awful.spawn("spectacle")
+    end, {description = "make a screenshot", group = "launcher"}),
+
+    -- Mod + ]
+    awful.key({ modkey }, "#35", function()
+      awful.spawn("xcolor -s")
+    end, {description = "run a color picker", group = "launcher"}),
+
+    --
+    -- keyboard layouts
+    -- setxkbmap -layout x
+    --
     awful.key({ "Control", "Shift" }, "1", function()
       awful.spawn.with_shell("setxkbmap -layout us")
     end, {description = "switch to US keyboard layout", group = "keyboard layout"}),
@@ -399,11 +430,11 @@ globalkeys = awful.util.table.join(
 
     -- Decrease brightness
     awful.key({ }, "#232", function()
-      awful.spawn.with_shell("xbacklight -dec 5")
+      awful.spawn.with_shell("brightnessctl s 5%-")
     end, {description = "decrease brightness", group = "brightness"}),
     -- Increase brightness
     awful.key({ }, "#233", function()
-      awful.spawn.with_shell("xbacklight -inc 5")
+      awful.spawn.with_shell("brightnessctl s 5%+")
     end, {description = "increase brightness", group = "brightness"}),
 
     -- Mute volume
@@ -551,8 +582,11 @@ for key, num in pairs(extra_tags) do
     )
 end
 
-clientbuttons = awful.util.table.join(
+local clientbuttons = awful.util.table.join(
     awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
+    awful.button({ }, 2, function ()
+      awful.spawn.with_shell("echo -n | xsel -pni")
+    end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
     awful.button({ modkey }, 3, awful.mouse.client.resize))
 
@@ -583,34 +617,44 @@ awful.rules.rules = {
     -- ==== Tags ====
     -- NOTE In the xprop output, the class is the second value of the
     -- WM_CLASS property.
-    { rule = { class = "konsole" },
-      properties = { screen = 1, tag = "1", opacity = 0.9 } },
+
+    -- 1
+    -- 2
     { rule = { class = "Firefox" },
       properties = { screen = 1, tag = "2" } },
+    -- 3
     { rule = { class = "Dolphin" },
       properties = { screen = 1, tag = "3" } },
+    -- 4
+    { rule = { class = "ksshaskpass" },
+      properties = { screen = 1, tag = "4", urgent = true } },
+    -- 5
     { rule = { class = "Chromium" },
       properties = { screen = 1, tag = "5", floating = false } },
+    -- 6
     { rule = { class = "Smplayer" },
       properties = { screen = 1, tag = "6" } },
     { rule = { class = "mpv" },
       properties = { screen = 1, tag = "6", ontop = true, floating = true }},
-    { rule = { class = "ksshaskpass" },
-      properties = { screen = 1, tag = "4", urgent = true } },
+    -- 7
     { rule = { class = "VirtualBox" },
       properties = { screen = 1, tag = "7" } },
+    -- 8
     { rule = { class = "Keepassx" },
       properties = { screen = 1, tag = "8" } },
+    -- 9
     { rule = { class = 'Pavucontrol' },
       properties = { screen = 1, tag = '9' } },
-    { rule = { class = 'Vncviewer' },
-      properties = { screen = 1, tag = 'a' } },
+    -- c
     { rule = { class = "wpa_Gui" },
       properties = { screen = 1, tag = "c" } },
-    { rule = { class = "Thunderbird" },
-      properties = { screen = 1, tag = "d", floating = false, } },
-    { rule = { class = "Skype" },
+    -- e
+    { rule = { class = "Slack" },
       properties = { screen = 1, tag = "e" } },
+    -- f
+    { rule = { class = "Alacritty", name = "tmux - main" },
+      properties = { screen = 1, tag = "f" } },
+    -- floating
     { rule = { class = "Plasma" },
       properties = { floating = true } },
 }
