@@ -11,9 +11,26 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 
+--- external optional deps
+local battery_widget_present, battery_widget = pcall(require, 'battery-widget')
+
 --- pathes
 local homedir_path = os.getenv("HOME")
 local scripts_path = homedir_path
+
+--- helpers
+
+local function ternary( cond, T, F )
+  if cond then return T() else return F() end
+end
+
+local function print_debug(label, value)
+  naughty.notify({
+    preset = naughty.config.presets.low,
+    title = label,
+    text = tostring(value)
+  })
+end
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -115,11 +132,31 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- }}}
 
 -- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
+local mykeyboardlayout = awful.widget.keyboardlayout()
+
+-- battery
+local mybattery = ternary(
+  battery_widget_present,
+  function ()
+    local theme = beautiful.get()
+    local lightred = "#ff6868"
+    local lightorange = "orange"
+    local lightyellow = "#fff157"
+    return battery_widget{
+      percent_colors = {
+        {10,  lightred       },
+        {30,  lightorange    },
+        {40,  lightyellow    },
+        {999, theme.fg_normal},
+      },
+    }
+  end,
+  function () return wibox.widget{ markup = '', widget = wibox.widget.textbox } end
+  )
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock()
+local mytextclock = wibox.widget.textclock()
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = awful.util.table.join(
@@ -222,6 +259,7 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            mybattery,
             mykeyboardlayout,
             wibox.widget.systray(),
             mytextclock,

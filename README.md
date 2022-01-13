@@ -6,6 +6,10 @@
 
 If it works for me, it does not mean, that it will work for you. ;)
 
+## Exteral deps/widgets
+
+- https://github.com/deficient/battery-widget - optional, to display battery widget
+
 ## Themes
 
 This configuration does not ship any themes, but you can grab one from some of
