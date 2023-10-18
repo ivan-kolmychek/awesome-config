@@ -57,6 +57,13 @@ do
 end
 -- }}}
 
+-- {{{ Pre-start/reload cleanup/hacks
+
+-- disable KDE global shortcuts
+awful.util.spawn("qdbus org.kde.kglobalaccel /kglobalaccel blockGlobalShortcuts true", false);
+
+-- }}}
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(awful.util.get_configuration_dir() .. "themes/current/theme.lua")
