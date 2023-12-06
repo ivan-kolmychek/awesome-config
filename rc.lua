@@ -444,10 +444,26 @@ local globalkeys = awful.util.table.join(
       awful.spawn.with_shell("brightnessctl s 5%+")
     end, {description = "increase brightness", group = "brightness"}),
 
+    -- Asus laptops: increase/decrease keyboard highlight
+    -- awful.key({ }, "#237", function()
+    --   awful.spawn.with_shell("brightnessctl -d \"asus::kbd_backlight\" s 1-")
+    -- end, {description = "decrease keyboard brightness", group = "brightness"}),
+    -- Increase brightness
+    -- awful.key({ }, "#238", function()
+    --   awful.spawn.with_shell("brightnessctl -d \"asus::kbd_backlight\" s 1+")
+    -- end, {description = "increase keyboard brightness", group = "brightness"}),
+
+    -- keys on top
+    -- 122 (XF86AudioLowerVolume)
+    -- 123 (XF86AudioRaiseVolume)
+    -- was 248 (XF86AudioMicMute), remapped to 211
+    -- 211 (XF86Launch4)
+    -- 156 (XF86Launch1)
+
     -- Mute volume
     awful.key({ }, "#121", function()
       awful.spawn.with_shell("pamixer --toggle-mute")
-    end, {description = "mute volume", group = "volume"}),
+    end, {description = "mute/unmute volume", group = "volume"}),
     -- Decrease volume
     awful.key({ }, "#122", function()
       awful.spawn.with_shell("pamixer --decrease 5")
@@ -455,7 +471,11 @@ local globalkeys = awful.util.table.join(
     -- Increase volume
     awful.key({ }, "#123", function()
       awful.spawn.with_shell("pamixer --increase 5")
-    end, {description = "increase volume", group = "volume"})
+    end, {description = "increase volume", group = "volume"}),
+    -- Toggle mic mute
+    awful.key({ }, "XF86Launch4", function()
+      awful.spawn.with_shell("pamixer --default-source --toggle-mute")
+    end, {description = "mute/unmute default mic", group = "volume"})
 )
 
 clientkeys = awful.util.table.join(
