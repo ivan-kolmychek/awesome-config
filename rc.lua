@@ -412,6 +412,12 @@ local globalkeys = awful.util.table.join(
     awful.key({ }, "Print", function()
       awful.spawn("spectacle")
     end, {description = "make a screenshot", group = "launcher"}),
+    awful.key({ "Shift" }, "Print", function()
+      awful.spawn("spectacle --background")
+    end, {description = "make a screenshot in background", group = "launcher"}),
+    awful.key({ "Ctrl" }, "Print", function()
+      awful.spawn("spectacle --background --nonotify")
+    end, {description = "make a screenshot in background with no notification", group = "launcher"}),
 
     -- Mod + ]
     awful.key({ modkey }, "#35", function()
