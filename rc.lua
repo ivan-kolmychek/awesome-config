@@ -18,6 +18,10 @@ local battery_widget_present, battery_widget = pcall(require, 'battery-widget')
 local homedir_path = os.getenv("HOME")
 local scripts_path = homedir_path
 
+--- commands
+local screenlock_cmd = "loginctl lock-session"
+local suspend_cmd = "systemctl suspend"
+
 --- helpers
 
 local function ternary( cond, T, F )
@@ -126,10 +130,12 @@ local myawesomemenu = {
    { "quit", function() awesome.quit() end}
 }
 
-local mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
-                                  }
-                        })
+local mymainmenu = awful.menu({ items = {
+  { "awesome", myawesomemenu, beautiful.awesome_icon },
+  { "suspend", suspend_cmd },
+  { "lock", screenlock_cmd },
+  { "open terminal", terminal }
+}})
 
 local mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
@@ -390,7 +396,7 @@ local globalkeys = awful.util.table.join(
 
     -- Mod + l
     awful.key({ modkey, }, "l", function()
-      awful.spawn("loginctl lock-session")
+      awful.spawn(screenlock_cmd)
     end, {description = "request screen lock", group = "launcher"}),
 
     -- Mod + F1
@@ -412,12 +418,22 @@ local globalkeys = awful.util.table.join(
     awful.key({ }, "Print", function()
       awful.spawn("spectacle")
     end, {description = "make a screenshot", group = "launcher"}),
+    
     awful.key({ "Shift" }, "Print", function()
       awful.spawn("spectacle --background")
     end, {description = "make a screenshot in background", group = "launcher"}),
-    awful.key({ "Ctrl" }, "Print", function()
+    
+    awful.key({ "Ctrl", "Shift" }, "Print", function()
       awful.spawn("spectacle --background --nonotify")
-    end, {description = "make a screenshot in background with no notification", group = "launcher"}),
+    end, {description = "make a full-screen screenshot and quietly save it", group = "launcher"}),
+
+    awful.key({ "Ctrl" }, "Print", function()
+      awful.spawn("spectacle --background --copy-image")
+    end, {description = "make a full-screen screenshot and copy it to clipboard", group = "launcher"}),
+
+    awful.key({ modkey }, "Print", function()
+      awful.spawn("spectacle --background --region --copy-image")
+    end, {description = "make a screenshot of a region and copy it to clipboard", group = "launcher"}),
 
     -- Mod + ]
     awful.key({ modkey }, "#35", function()
