@@ -158,8 +158,8 @@ local mybattery = ternary(
     return battery_widget{
       percent_colors = {
         {10,  lightred       },
-        {30,  lightorange    },
-        {40,  lightyellow    },
+        {20,  lightorange    },
+        {30,  lightyellow    },
         {999, theme.fg_normal},
       },
     }
@@ -418,11 +418,11 @@ local globalkeys = awful.util.table.join(
     awful.key({ }, "Print", function()
       awful.spawn("spectacle")
     end, {description = "make a screenshot", group = "launcher"}),
-    
+
     awful.key({ "Shift" }, "Print", function()
       awful.spawn("spectacle --background")
     end, {description = "make a screenshot in background", group = "launcher"}),
-    
+
     awful.key({ "Ctrl", "Shift" }, "Print", function()
       awful.spawn("spectacle --background --nonotify")
     end, {description = "make a full-screen screenshot and quietly save it", group = "launcher"}),
