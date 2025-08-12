@@ -1,3 +1,5 @@
+NOTE: this repo has been moved to codeberg, see https://codeberg.org/ivan-kolmychek/dotfiles
+
 # Awesome Window Manager (v4.x) configuration
 
 ## Disclaimer
