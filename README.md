@@ -1,4 +1,4 @@
-NOTE: this repo has been moved to codeberg, see https://codeberg.org/ivan-kolmychek/dotfiles
+NOTE: this repo has been moved to codeberg, see https://codeberg.org/ivan-kolmychek/awesome-config
 
 # Awesome Window Manager (v4.x) configuration
 
